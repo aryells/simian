@@ -1,0 +1,3 @@
+spring:
+  cloud:
+    appId: simian-274117

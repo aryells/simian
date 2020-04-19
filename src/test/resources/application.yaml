@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    gcp:
+      datastore:
+        credentials:
+          location: classpath:simian-274117-572249dae26e.json
+        namespace: test
+        project-id: simian-274117
+default:
+  regex:
+    humanDNA: '[ATCG]{6}'
+    mutantDNA: '[ATCG]{3}AG[ATCG],[ATCG]{2}A[ATCG]G[ATCG],[ATCG]A[ATCG]{2}G[ATCG],A[ATCG]{3}G[ATCG],C{4}[ATCG]{2},[ATCG]{6}'

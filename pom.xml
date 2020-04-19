@@ -17,10 +17,6 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Hoxton.SR3</spring-cloud.version>
-		<jacoco.dataFile>${project.basedir}/../target/jacoco.exec</jacoco.dataFile>
-		<jacoco.reporting.outputDirectory>${project.basedir}/../target/reports/jacoco</jacoco.reporting.outputDirectory>
-		<jacoco.inclNoLocationClasses>true</jacoco.inclNoLocationClasses>
-		<rest-locations>com.mercadolivre.simian.controller</rest-locations>
 		<commons-io.version>1.3.2</commons-io.version>
 		<springdoc-openapi-ui-version>1.3.0</springdoc-openapi-ui-version>
 		<cucumber-version>5.6.0</cucumber-version>
@@ -79,6 +75,7 @@
 			<version>${cucumber-version}</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
@@ -105,71 +102,30 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.5</version>
-				<configuration>
-					<destFile>${sonar.jacoco.reportPaths}</destFile>
-					<append>true</append>
-				</configuration>
 				<executions>
 					<execution>
-						<id>default-prepare-agent</id>
+						<id>prepare-agent</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 					<execution>
-						<id>default-report</id>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${jacoco.reporting.outputDirectory}</outputDirectory>
+							<dataFile>target/jacoco.exec</dataFile>
+							<outputDirectory>target/jacoco-ut</outputDirectory>
 						</configuration>
-					</execution>
-					<execution>
-						<id>default-report-aggregate</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>report-aggregate</goal>
-						</goals>
-						<configuration>
-							<dataFileIncludes>
-								<dataFileInclude>${jacoco.dataFile}</dataFileInclude>
-							</dataFileIncludes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>com.github.kongchen</groupId>
-				<artifactId>swagger-maven-plugin</artifactId>
-				<version>3.1.8</version>
-				<configuration>
-					<apiSources>
-						<apiSource>
-							<outputFormats>json</outputFormats>
-							<springmvc>true</springmvc>
-							<locations>${rest-locations}</locations>
-							<host>localhost:8080</host>
-							<basePath>/</basePath>
-							<info>
-								<title>Application manager swagger</title>
-								<version>${project.version}</version>
-								<contact>
-									<email>aryells@gmail.com</email>
-									<name>Aryel Liberato Sotero</name>
-								</contact>
-							</info>
-							<swaggerDirectory>${project.build.directory}/generated/swagger-ui</swaggerDirectory>
-						</apiSource>
-					</apiSources>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>

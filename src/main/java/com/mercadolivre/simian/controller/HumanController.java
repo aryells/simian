@@ -3,10 +3,7 @@ package com.mercadolivre.simian.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.mercadolivre.simian.domain.dto.HumanDTO;
 import com.mercadolivre.simian.domain.dto.StatsDTO;
@@ -20,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
+@RequestMapping("/")
 public class HumanController {
 
     @Autowired
@@ -30,7 +28,7 @@ public class HumanController {
             @ApiResponse(responseCode = "403", description = "Not a simian", content = @Content(examples = @ExampleObject(), mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "400", description = "Not valid DNA", content = @Content(examples = @ExampleObject(), mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-    @PostMapping(name = "simian", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/simian", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HumanDTO> create(@RequestBody HumanDTO newHumanDTO) throws NotSimianException, NotValidDNAException {
         return ResponseEntity.ok(this.humanService.save(newHumanDTO));
     }
@@ -40,7 +38,7 @@ public class HumanController {
             @ApiResponse(responseCode = "403", description = "Not a simian", content = @Content(examples = @ExampleObject(), mediaType = MediaType.APPLICATION_JSON_VALUE)),
             @ApiResponse(responseCode = "400", description = "Not valid DNA", content = @Content(examples = @ExampleObject(), mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-    @GetMapping(name="stats" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/stats" ,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StatsDTO> stats() {
         return ResponseEntity.ok(humanService.getStats());
     }

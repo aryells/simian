@@ -15,14 +15,14 @@ public class ResponseExceptionHandler {
     @ExceptionHandler({NotSimianException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
-    public ResponseEntity<Throwable> handleNotSimianException(Exception e) {
+    public ResponseEntity handleNotSimianException(Exception e) {
         return new ResponseEntity(e.getCause(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler({NotValidDNAException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public ResponseEntity<Throwable>  handleNotValidDNAException(Exception e) {
+    public ResponseEntity handleNotValidDNAException(Exception e) {
         return new ResponseEntity(e.getCause(), HttpStatus.BAD_REQUEST);
     }
 }

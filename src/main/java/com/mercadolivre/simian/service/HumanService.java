@@ -1,23 +1,21 @@
 package com.mercadolivre.simian.service;
 
-import static java.util.concurrent.CompletableFuture.supplyAsync;
-
-import java.math.BigDecimal;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.mercadolivre.simian.domain.Human;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.stereotype.Service;
-
 import com.mercadolivre.simian.domain.dto.HumanDTO;
 import com.mercadolivre.simian.domain.dto.StatsDTO;
 import com.mercadolivre.simian.exception.NotSimianException;
 import com.mercadolivre.simian.exception.NotValidDNAException;
 import com.mercadolivre.simian.repository.HumanRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 @Service
 @EnableAsync

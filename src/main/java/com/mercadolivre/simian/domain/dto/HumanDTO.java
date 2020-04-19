@@ -3,6 +3,7 @@ package com.mercadolivre.simian.domain.dto;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class HumanDTO implements Serializable {
 		this.isSimian = isSimian;
 	}
 
-    public static String getMD5Hash(HumanDTO humanDTO) throws Exception {
+    public static String getMD5Hash(HumanDTO humanDTO) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         final String dnsStr = humanDTO.getDna().stream().collect(Collectors.joining(","));
         messageDigest.update(dnsStr.getBytes(), 0, dnsStr.length());

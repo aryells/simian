@@ -1,14 +1,12 @@
 dist: trusty
 language: java
 jdk:
-  - openjdk8
-
+- openjdk8
 addons:
   sonarcloud:
-    organization: "aryells"
+    organization: aryells
     token:
-      secure: "CQvDGemXlgoob5W2Ch2KvmJV6TatHzkHopQWJoUeocje2bqa0Nk7q0qiY2QgTLJDBqOei6DS/Cyriad+SiHL2q72uc8PI5eqgO4XkYZpovTrIDahy2VGZdMg2ijI27uxoE88IV34pEfG727HawpQTOLzrJN++oITQCtgRNb7Ke6p9uuXHl3S+CQW+VAl+TEekNLpTXho6LbxuxaHW3do6A/Ghqy5aUlVPdfpfeYMdFCP6/2KUgWyYq3rwnYbaKN+JwYwCfUfcNAYMXxWNtCWuBSIk5QQucSg1S4EjYjDugx6UN1SSYmqUC7TahM7ZLmPkPdSoHBqgb52zjjLoZSDXBbV+o95VRtk0lsy9k6EmCDTYIgzhlc+Osn1XmOW+lRgyBxR0kwnsM777/l4UPyeQUq17xC910tAxUEKFAweE6ybyxbRmoBqek2CAoYPr55WBhgid8gM4QZ+JnOa9JuNy9SsdteljMMJ43LbDaPYHZmlJHmh1/uFnL/gF+7EsTZ1DzyziIzvaLJXCNY3KRpWezbgW80+4SPqIe+thz32lddFkWxGIOSh8iqoAHK82UFSwhLzSwqOdx6B7EESUkmc6DvQzK53QE/tLhwb93DMPgleu0+46FPofQMutB8MP+wbV1kq44XN4HPvFmC7Rg073hU9wAgRd86LGk7dHw7qOIo=" # encrypted value of your token
-
+      secure: "CQvDGemXlgoob5W2Ch2KvmJV6TatHzkHopQWJoUeocje2bqa0Nk7q0qiY2QgTLJDBqOei6DS/Cyriad+SiHL2q72uc8PI5eqgO4XkYZpovTrIDahy2VGZdMg2ijI27uxoE88IV34pEfG727HawpQTOLzrJN++oITQCtgRNb7Ke6p9uuXHl3S+CQW+VAl+TEekNLpTXho6LbxuxaHW3do6A/Ghqy5aUlVPdfpfeYMdFCP6/2KUgWyYq3rwnYbaKN+JwYwCfUfcNAYMXxWNtCWuBSIk5QQucSg1S4EjYjDugx6UN1SSYmqUC7TahM7ZLmPkPdSoHBqgb52zjjLoZSDXBbV+o95VRtk0lsy9k6EmCDTYIgzhlc+Osn1XmOW+lRgyBxR0kwnsM777/l4UPyeQUq17xC910tAxUEKFAweE6ybyxbRmoBqek2CAoYPr55WBhgid8gM4QZ+JnOa9JuNy9SsdteljMMJ43LbDaPYHZmlJHmh1/uFnL/gF+7EsTZ1DzyziIzvaLJXCNY3KRpWezbgW80+4SPqIe+thz32lddFkWxGIOSh8iqoAHK82UFSwhLzSwqOdx6B7EESUkmc6DvQzK53QE/tLhwb93DMPgleu0+46FPofQMutB8MP+wbV1kq44XN4HPvFmC7Rg073hU9wAgRd86LGk7dHw7qOIo="
 script:
 - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify org.jacoco:jacoco-maven-plugin:report
   install sonar:sonar
@@ -16,8 +14,8 @@ cache:
   directories:
   - "$HOME/.m2"
 before_install:
-  - openssl aes-256-cbc -K $encrypted_2fd045226a67_key -iv $encrypted_2fd045226a67_iv
-    -in client-secret.json.enc -out client-secret.json -d
+- openssl aes-256-cbc -K $encrypted_2fd045226a67_key -iv $encrypted_2fd045226a67_iv
+  -in client-secret.json.enc -out client-secret.json -d
 deploy:
   provider: gae
   keyfile: client-secret.json

@@ -17,9 +17,12 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+		<rest-locations>com.mercadolivre.simian.controller</rest-locations>
 		<commons-io.version>1.3.2</commons-io.version>
 		<springdoc-openapi-ui-version>1.3.0</springdoc-openapi-ui-version>
 		<cucumber-version>5.6.0</cucumber-version>
+		<git-commit-id-plugin.version>2.2.4</git-commit-id-plugin.version>
+		<build.number>${git.commit.id.abbrev}</build.number>
 	</properties>
 
 	<dependencies>
@@ -91,13 +94,38 @@
 	</dependencyManagement>
 
 	<build>
-		<finalName>${project.artifactId}-${project.version}</finalName>
+		<finalName>${project.artifactId}-${project.version}-${build.number}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>${git-commit-id-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>get-the-git-infos</id>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+						<phase>initialize</phase>
+					</execution>
+					<execution>
+						<id>validate-the-git-infos</id>
+						<goals>
+							<goal>validateRevision</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties
+					</generateGitPropertiesFilename>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -108,6 +136,34 @@
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+					</execution>
+					<execution>
+						<id>check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule implementation="org.jacoco.maven.RuleConfiguration">
+									<element>CLASS</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.80</minimum>
+										</limit>
+										<limit>
+											<counter>BRANCH</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.80</minimum>
+										</limit>
+									</limits>
+									<excludes>
+										<exclude>com.mercadolivre.simian.SimianApplication</exclude>
+									</excludes>
+								</rule>
+							</rules>
+						</configuration>
 					</execution>
 					<execution>
 						<id>report</id>
@@ -128,6 +184,48 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.kongchen</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>3.1.8</version>
+				<configuration>
+					<apiSources>
+						<apiSource>
+							<outputFormats>json</outputFormats>
+							<springmvc>true</springmvc>
+							<locations>${rest-locations}</locations>
+							<host>localhost:8080</host>
+							<basePath>/</basePath>
+							<info>
+								<title>Application manager swagger</title>
+								<version>${project.version}</version>
+								<contact>
+									<email>aryells@gmail.com</email>
+									<name>Aryel Liberato Sotero</name>
+								</contact>
+							</info>
+							<swaggerDirectory>${project.build.directory}/generated/swagger-ui</swaggerDirectory>
+						</apiSource>
+					</apiSources>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>2.2.0</version>
+				<configuration>
+					<version>${build.number}</version>
+					<projectId>simian-274117</projectId>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

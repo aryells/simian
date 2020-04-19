@@ -28,14 +28,4 @@ public class CucumberSteps {
     @LocalServerPort
     protected Long port;
 
-//    @BeforeClass
-//    public static void checkToRun() {
-//        System.out.println("Datastore sample integration tests are disabled. Please use '-Dit.datastore=true' to enable them.");
-//        assertEquals(System.getProperty("it.datastore"), true);
-//    }
-
-//    @After
-//    public void cleanUp() {
-//        this.datastoreTemplate.deleteAll(Human.class);
-//    }
 }

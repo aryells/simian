@@ -1,20 +1,18 @@
 package com.mercadolivre.simian.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.mercadolivre.simian.domain.dto.HumanDTO;
 import com.mercadolivre.simian.domain.dto.StatsDTO;
 import com.mercadolivre.simian.exception.NotSimianException;
 import com.mercadolivre.simian.exception.NotValidDNAException;
 import com.mercadolivre.simian.service.HumanService;
-
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")

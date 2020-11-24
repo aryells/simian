@@ -93,7 +93,7 @@ Feature: Validate and save simian
       |[ACGAGA, CTAGGC, TATTGT, AGAGGG, ACCCTA, ACAATA]| false|122719996773892483840334060236080679525|
     When the client calls /simian/stats
     Then ratio calculator
-    
+
   Scenario: batch - drop humans
     Given drop humans
     When the client calls /simian/stats

@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,12 +34,12 @@ public class HumanService {
     public StatsDTO getStats() {
         long countHumans = humanRepository.countByIsSimian(false);
         long countMutants = humanRepository.countByIsSimian(true);
-        final StatsDTO.Builder builder = StatsDTO.builder().countMutantDna(countMutants)
+        final StatsDTO.StatsDTOBuilder builder = StatsDTO.builder().countMutantDna(countMutants)
                 .countHumanDna(countHumans);
         if(countHumans == 0) {
             return builder.ratio(0D).build();
         }
-        final BigDecimal ratio = BigDecimal.valueOf(countMutants).divide(BigDecimal.valueOf(countHumans), 2, BigDecimal.ROUND_UP);
+        final BigDecimal ratio = BigDecimal.valueOf(countMutants).divide(BigDecimal.valueOf(countHumans), 2, RoundingMode.HALF_UP);
         return builder.ratio(ratio.doubleValue()).build();
     }
 
@@ -46,7 +47,7 @@ public class HumanService {
         String md5 = null;
         try {
             md5 = HumanDTO.getMD5Hash(humanDTO);
-            validateSimian(humanDTO.getDna().stream().toArray(String[]::new));
+            validateSimian(humanDTO.getDna().toArray(String[]::new));
             humanDTO.setIsSimian(true);
             saveOnlyNewDnaAsync(humanDTO, md5);
             return humanDTO;
